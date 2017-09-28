@@ -1,2 +1,6 @@
 # dependencies-cli test cache
 .cache
+
+# build artifacts
+bin/
+obj/
