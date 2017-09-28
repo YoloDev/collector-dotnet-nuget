@@ -1,0 +1,30 @@
+{
+    "dependencies": [
+        {
+            "name": "requests",
+            "installed": {
+                "version": "2.11.1"
+            },
+            "available": [
+                {
+                    "version": "2.14.0"
+                }
+            ],
+            "path": "requirements-to-freeze.txt",
+            "source": "pypi"
+        },
+        {
+            "name": "tox",
+            "installed": {
+                "version": "2.6.0"
+            },
+            "available": [
+                {
+                    "version": "2.7.0"
+                }
+            ],
+            "path": "requirements-to-freeze.txt",
+            "source": "pypi"
+        }
+    ]
+}

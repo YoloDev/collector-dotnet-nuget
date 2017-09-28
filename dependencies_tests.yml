@@ -1,0 +1,15 @@
+name: collector-dotnet-nuget
+type: collector
+
+cases:
+- name: Basic test
+  dockerfile: Dockerfile
+  repo_contents: test/repo_base
+  dependencies_json: test/dependencies.json
+  user_config:
+    path: /
+    settings:
+      example_list:
+      - a
+      - b
+      example_string: testing
