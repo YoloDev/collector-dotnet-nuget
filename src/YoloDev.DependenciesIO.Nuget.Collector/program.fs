@@ -179,7 +179,7 @@ module internal DepJson =
   let toJson (dep: ResolvedDep) =
     let available =
       dep.available
-      |> List.map (fun v -> str v.OriginalVersion)
+      |> List.map (fun v -> obj [ prop "version" (str v.OriginalVersion) ])
       |> arr
 
     let o = 
