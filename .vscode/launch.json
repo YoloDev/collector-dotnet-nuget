@@ -9,7 +9,7 @@
       "type": "coreclr",
       "request": "launch",
       "preLaunchTask": "build",
-      "program": "${workspaceRoot}/src/YoloDev.DependenciesIO.Nuget.Collector/bin/Debug/netcoreapp2.0/YoloDev.DependenciesIO.Nuget.Collector.dll",
+      "program": "${workspaceRoot}/src/DependenciesIO.Nuget.Collector/bin/Debug/netcoreapp2.0/DependenciesIO.Nuget.Collector.dll",
       "args": [],
       "cwd": "${workspaceRoot}",
       "stopAtEntry": false,

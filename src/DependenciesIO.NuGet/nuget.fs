@@ -1,4 +1,4 @@
-module YoloDev.DependenciesIO.NuGet
+module DependenciesIO.NuGet
 
 open System
 open FSharp.Control

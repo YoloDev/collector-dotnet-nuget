@@ -1,4 +1,4 @@
-module YoloDev.DependenciesIO.Project
+module DependenciesIO.Project
 
 open System
 open NuGet.Versioning

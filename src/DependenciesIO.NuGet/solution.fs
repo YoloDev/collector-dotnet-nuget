@@ -1,4 +1,4 @@
-module YoloDev.DependenciesIO.Solution
+module DependenciesIO.Solution
 
 open FSharp.Control
 open Microsoft.Build.Construction

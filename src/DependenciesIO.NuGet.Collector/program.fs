@@ -1,12 +1,12 @@
-﻿// Learn more about F# at http://fsharp.org
+﻿module DependenciesIO.Collector.Program
 
 open FSharp.Control
 open System.IO
-open YoloDev.DependenciesIO.Project
-open YoloDev.DependenciesIO.Solution
-open YoloDev.DependenciesIO.NuGet
-open YoloDev.DependenciesIO.Json
-open YoloDev.DependenciesIO.Json.Operators
+open DependenciesIO.Project
+open DependenciesIO.Solution
+open DependenciesIO.NuGet
+open DependenciesIO.Json
+open DependenciesIO.Json.Operators
 
 [<RequireQualifiedAccess>]
 module PackageReference =

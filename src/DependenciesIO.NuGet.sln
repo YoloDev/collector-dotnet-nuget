@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26124.0
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "YoloDev.DependenciesIO.Nuget.Collector", "YoloDev.DependenciesIO.Nuget.Collector\YoloDev.DependenciesIO.Nuget.Collector.fsproj", "{A06E8886-0301-4A34-AE71-AEA761ADE226}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "DependenciesIO.NuGet.Collector", "DependenciesIO.NuGet.Collector\DependenciesIO.NuGet.Collector.fsproj", "{A06E8886-0301-4A34-AE71-AEA761ADE226}"
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FSharp.Control.AsyncSeq", "FSharp.Control.AsyncSeq\FSharp.Control.AsyncSeq.fsproj", "{CCB15BEF-55FF-43BC-BD08-0D929553E21F}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "YoloDev.DependenciesIO.Nuget", "YoloDev.DependenciesIO.Nuget\YoloDev.DependenciesIO.Nuget.fsproj", "{9E30EE9F-8FE1-401D-AD53-FA859942E998}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "DependenciesIO.NuGet", "DependenciesIO.NuGet\DependenciesIO.NuGet.fsproj", "{9E30EE9F-8FE1-401D-AD53-FA859942E998}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

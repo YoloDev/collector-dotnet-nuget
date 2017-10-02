@@ -28,5 +28,5 @@ USER app
 # Set workdir to /repo
 WORKDIR /repo
 
-ENTRYPOINT ["dotnet", "/usr/src/collector/bin/YoloDev.DependenciesIO.Nuget.Collector.dll"]
+ENTRYPOINT ["dotnet", "/usr/src/collector/bin/DependenciesIO.NuGet.Collector.dll"]
 CMD ["/"]
