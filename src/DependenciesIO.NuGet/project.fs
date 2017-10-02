@@ -424,19 +424,6 @@ module ProjectFileInfo =
     use collection = new ProjectCollection (globalProperties)
     let toolsVersion = collection.DefaultToolsVersion
     logger.infof "Using tools version %s" toolsVersion
-    
-    (* match env.toolsetPath with
-    | None -> ()
-    | Some path ->
-      collection.RemoveAllToolsets ()
-      collection.SetGlobalProperty ("RoslynTargetsPath", Path.Combine [| path; "Roslyn" |])
-      collection.AddToolset <|
-        Toolset (
-          toolsVersion,
-          path,
-          collection,
-          "" ) *)
-
 
     // Evaluate the MSBuild project
     let project = collection.LoadProject (filePath, toolsVersion)
