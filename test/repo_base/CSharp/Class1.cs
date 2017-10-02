@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Test
+namespace CSharp
 {
     public class Class1
     {
