@@ -8,8 +8,3 @@ cases:
   dependencies_json: test/dependencies.json
   user_config:
     path: /repo_base.sln
-    settings:
-      example_list:
-      - a
-      - b
-      example_string: testing
