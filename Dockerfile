@@ -19,7 +19,8 @@ COPY src/ /usr/src/collector/
 RUN dotnet restore && \
   dotnet publish -c Release -o /usr/src/collector/bin && \
   chown -R app:app /usr/src/collector/bin && \
-  ls -la /usr/src/collector/bin
+  ls -la /usr/src/collector/bin && \
+  dotnet --info
 
 # run everything from here on as non-root
 USER app

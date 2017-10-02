@@ -9,5 +9,9 @@
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
     <PackageReference Include="NuGet.Protocol" Version="4.3.0" />
+    <PackageReference Include="NuGet.Versioning" Version="4.3.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\YoloDev.DependenciesIO.Nuget\YoloDev.DependenciesIO.Nuget.fsproj" />
   </ItemGroup>
 </Project>

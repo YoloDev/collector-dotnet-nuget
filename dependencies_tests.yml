@@ -7,7 +7,7 @@ cases:
   repo_contents: test/repo_base
   dependencies_json: test/dependencies.json
   user_config:
-    path: /
+    path: /repo_base.sln
     settings:
       example_list:
       - a
