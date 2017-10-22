@@ -3,7 +3,7 @@ type: collector
 
 cases:
 - name: Basic test
-  dockerfile: Dockerfile
+  dockerfile: Dockerfile.collector
   repo_contents: test/repo_base
   dependencies_json: test/dependencies.json
   user_config:

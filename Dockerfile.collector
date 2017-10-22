@@ -1,0 +1,32 @@
+FROM microsoft/dotnet:sdk AS build-env
+WORKDIR /app
+
+# copy sources
+COPY src/ ./
+
+# restore & build
+RUN dotnet restore && \
+  dotnet publish -c Release -o /app/out && \
+  ls -la /app/out && \
+  dotnet --info
+
+FROM microsoft/dotnet:sdk
+
+# add a non-root user and give them ownership
+RUN useradd -u 9000 app && \
+  mkdir /home/app && \
+  chown -R app:app /home/app && \
+  mkdir /repo && \
+  chown -R app:app /repo
+
+# run everything from here on as non-root
+USER app
+
+# copy build application
+COPY --from=build-env /app/out /home/app/
+
+# Set workdir to /repo
+WORKDIR /repo
+
+ENTRYPOINT ["dotnet", "/home/app/DependenciesIO.NuGet.Collector.dll"]
+CMD ["/"]
