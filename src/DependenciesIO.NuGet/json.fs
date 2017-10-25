@@ -261,11 +261,13 @@ module internal Conversion =
     | :? JArray as a -> a.Values () |> Seq.map fromToken |> Seq.toList |> Array
     | :? JValue as v ->
       match v.Value with
-      | null           -> Null ()
-      | :? double as n -> Number n
-      | :? string as s -> String s
-      | _              -> failwithf "Invalid token type %s - token: %O" ((v.Value.GetType ()).Name) v
-    | :? JObject as o ->
+      | null            -> Null ()
+      | :? double as n  -> Number n
+      | :? int64 as n   -> Number (double n)
+      | :? string as s  -> String s
+      | :? bool as b    -> Bool b
+      | _               -> failwithf "Invalid token type %s - token: %O" ((v.Value.GetType ()).Name) v
+    | :? JObject as o   ->
       o.Properties ()
       |> Seq.map (fun p -> p.Name, fromToken p.Value)
       |> Map.ofSeq

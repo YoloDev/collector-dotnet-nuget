@@ -38,7 +38,7 @@ module NuGet =
 
   let rec private getAvailableVersions' (repos: SourceRepository list) cache logger packageId =
     match repos with
-    | []                -> async { return None }
+    | []            -> async { return None }
     | repo :: repos -> async {
       let! byId = repo.GetResourceAsync<FindPackageByIdResource> () |> Async.AwaitTask
       match Option.ofObj byId with

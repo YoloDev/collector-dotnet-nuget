@@ -2,16 +2,10 @@
 
 open FSharp.Control
 open System.IO
-open DependenciesIO.Project
-open DependenciesIO.Solution
+open DependenciesIO
 open DependenciesIO.NuGet
 open DependenciesIO.Json
 open DependenciesIO.Json.Operators
-
-[<RequireQualifiedAccess>]
-module PackageReference =
-  let isExplicit (p: PackageReference) =
-    not p.isImplicitlyDefined
 
 [<Struct>]
 type Version = Version of string with
@@ -34,43 +28,84 @@ type Dependency = {
        // *> Json.write "repo" x.source
        *> Json.write "source" "nuget"
 
+
+module Path =
+  let getRelative fromDir toPath =
+    if isNull fromDir then nullArg "fromDir"
+    elif isNull toPath then nullArg "toPath"
+    
+    let isDifferentRoot = 
+      let isRooted = Path.IsPathRooted fromDir && Path.IsPathRooted toPath
+      if not isRooted then false
+      else System.String.Compare (Path.GetPathRoot fromDir, Path.GetPathRoot toPath, true) <> 0
+    
+    if isDifferentRoot then toPath
+    else
+      let relativePath = ResizeArray ()
+      let fromDirectories = fromDir.Split Path.DirectorySeparatorChar |> List.ofArray
+      let toDirectories = toPath.Split Path.DirectorySeparatorChar |> List.ofArray
+
+      // find common root
+      let rec chk fromDirectories toDirectories index =
+        match fromDirectories, toDirectories with
+        | h1::fromDirectories, h2::toDirectories ->
+          if System.String.Compare (h1, h2, true) <> 0 then index
+          else chk fromDirectories toDirectories (index + 1)
+        | _ -> index
+      
+      let lastCommonRoot = chk fromDirectories toDirectories -1
+      if lastCommonRoot = -1 then toPath
+      else
+        // add relative folders in from path
+        for x in (lastCommonRoot + 1)..(List.length fromDirectories - 1) do
+          if fromDirectories |> List.item x |> String.length > 0 then
+            relativePath.Add ".."
+        
+        // add to folders to path
+        for x in (lastCommonRoot + 1)..(List.length toDirectories - 1) do
+          toDirectories |> List.item x |> relativePath.Add
+        
+        // create relative path
+        String.concat (string Path.DirectorySeparatorChar) relativePath
+    
+
 [<Struct>]
 type Dependencies = Dependencies of Dependency list with
 
   static member ToJson (Dependencies deps) =
     Json.write "dependencies" deps
 
-let getDependencies provider (proj: SolutionProject) = asyncSeq {
+let getDependencies rootDir (project: MsBuildDependencyGraph.Project) = asyncSeq {
   let deps =
-    proj.dependencies
-    |> Seq.filter PackageReference.isExplicit
+    project.dependencies
+    |> Map.map (fun _ -> List.filter (MsBuildDependencyGraph.Dependency.isAutoReferenced >> not))
+    |> Map.filter (fun _ -> List.isEmpty >> not)
+  
+  use provider = NuGet.create (Path.GetDirectoryName project.info.path)
+  for framework, deps in deps |> Map.toList do
+    for dep in deps do
+      let name = dep.name
+      let path = sprintf "%s!%s" project.info.path framework
+      let installed = dep.version
+      let! available = NuGet.getAvailableVersions provider name
+      match available with
+      | None -> ()
+      | Some ({ versions = versions; source = source }) ->
+        let versionStrings =
+          versions
+          |> List.map string
 
-  for dep in deps do
-    let name = dep.dependency.name
-    let path = proj.path
-    let installed = 
-      dep.dependency.version
-      |> Option.map string
-      |> Option.defaultValue "*"
-    let! available = NuGet.getAvailableVersions provider name
-    match available with
-    | None -> ()
-    | Some ({ versions = versions; source = source }) ->
-      let versionStrings =
-        versions
-        |> List.map string
+        yield
+          { name = name
+            installed = installed
+            available = versionStrings
+            path = Path.getRelative rootDir path
+            source = source } }
 
-      yield
-        { name = name
-          installed = installed
-          available = versionStrings
-          path = path
-          source = source } }
-
-let getAllDependencies rootDir solution (projects: AsyncSeq<SolutionProject>) = asyncSeq {
-  use provider = NuGet.create <| Path.Combine [| rootDir; solution.dir |]
-  for project in projects do
-    yield! getDependencies provider project }
+let getAllDependencies rootDir relPath absPath = asyncSeq {
+  let! graph = MsBuild.getDependencyGraph rootDir absPath
+  for project in graph.projects do
+    yield! getDependencies rootDir project }
 
 [<EntryPoint>]
 let main argv =
@@ -78,15 +113,15 @@ let main argv =
   let rootDir = "/repo"
   let relPath = (Array.head argv).TrimStart [| '/' |]
   let absPath = Path.Combine [| rootDir; relPath |]
-  let solution, projects = Solution.load relPath absPath
-  let deps = getAllDependencies rootDir solution projects
+  let deps = getAllDependencies rootDir relPath absPath
   
+  printfn "start"
   deps
   |> AsyncSeq.toListAsync
   |> Async.RunSynchronously
   |> Dependencies
   |> Json.serialize
-  |> Json.formatWith Format.Compact
+  |> Json.formatWith Format.Pretty
   |> printfn "BEGIN_DEPENDENCIES_SCHEMA_OUTPUT>%s<END_DEPENDENCIES_SCHEMA_OUTPUT"
   
   0

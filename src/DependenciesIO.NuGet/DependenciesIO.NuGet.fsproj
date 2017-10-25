@@ -2,19 +2,22 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
+
   <ItemGroup>
+    <Compile Include="exec.fs" />
     <Compile Include="json.fs" />
-    <Compile Include="project.fs" />
-    <Compile Include="solution.fs" />
+    <Compile Include="msbuild.fs" />
     <Compile Include="nuget.fs" />
   </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\FSharp.Control.AsyncSeq\FSharp.Control.AsyncSeq.fsproj" />
   </ItemGroup>
+  
   <ItemGroup>
     <PackageReference Include="Aether" Version="8.2.0" />
     <PackageReference Include="Microsoft.Build.Runtime" Version="15.3.409" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
-    <PackageReference Include="NuGet.Protocol" Version="4.3.0" />
+    <PackageReference Include="NuGet.Protocol" Version="4.4.0" />
   </ItemGroup>
 </Project>
