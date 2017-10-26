@@ -10,7 +10,7 @@
       "request": "launch",
       "preLaunchTask": "build",
       "program": "${workspaceRoot}/src/DependenciesIO.Nuget.Collector/bin/Debug/netcoreapp2.0/DependenciesIO.Nuget.Collector.dll",
-      "args": [],
+      "args": ["repo_base/repo_base.sln"],
       "cwd": "${workspaceRoot}",
       "stopAtEntry": false,
       "console": "internalConsole"

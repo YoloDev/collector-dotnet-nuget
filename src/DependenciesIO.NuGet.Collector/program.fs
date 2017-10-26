@@ -121,7 +121,7 @@ let main argv =
   |> Async.RunSynchronously
   |> Dependencies
   |> Json.serialize
-  |> Json.formatWith Format.Pretty
+  |> Json.formatWith Format.Compact
   |> printfn "BEGIN_DEPENDENCIES_SCHEMA_OUTPUT>%s<END_DEPENDENCIES_SCHEMA_OUTPUT"
   
   0
